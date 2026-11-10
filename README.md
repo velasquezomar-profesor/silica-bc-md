@@ -36,4 +36,7 @@ Etapa S0a: validación del flujo con CTAB. Objetivo (Stavert, Mol. Simul. 51 (20
 
 ## Estado de validación (2026-11-10)
 
+Corrección: la primera versión calculaba mal los pasos de producción (100 000 pasos = 3 ns en vez de 3 µs). Corregido: 100 000 000 pasos a 30 fs. Con la versión errónea, 6 % p/p (85 184 beads) dio 1822 ns/día en una RTX 2000 Ada con GROMACS 2026.3 (medida corta de 3 ns, posible contención con otro trabajo en la misma GPU al inicio; provisional).
+
+
 Probado con GROMACS 2025.6-dev (solo CPU, sin GPU): `grompp` acepta los dos sistemas; la minimización del sistema de 6 % p/p llegó a Fmax ≈ 298 en 5000 pasos (el límite ahora es 20 000); NVT de 2000 pasos a 2 fs sin errores (T ≈ 259 K a los 4 ps, aún relajando). No se ha corrido ninguna producción ni medido el número de agregación.

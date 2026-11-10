@@ -168,7 +168,7 @@ def build(wt, n_ctab, seed, outdir, T, prod_us):
         f.write('#include "../../ff/martini_v3.0.0.itp"\n#include "../../ff/martini_v3.0.0_ions_v1.itp"\n'
                 '#include "../../ff/martini_v3.0.0_solvents_v1.itp"\n#include "ctab.itp"\n\n'
                 f"[ system ]\nCTAB {wt_real:.2f} wt%\n\n[ molecules ]\nCTAB {n_ctab}\nBR {n_ctab}\nW {n_w}\n")
-    nsteps_md = int(prod_us * 1e6 / 30)
+    nsteps_md = round(prod_us * 1e6 / 0.030)  # us -> ps, dt = 0.030 ps
     fmt = dict(T=T, seed=seed)
     for name, tpl, extra in (
         ("em", MDP_EM, {}),
