@@ -1,0 +1,11 @@
+*.tpr
+*.cpt
+*.edr
+*.log
+*.xtc
+*.trr
+*.out
+S0a/*/conf.gro
+S0a/*/em.gro
+S0a/*/mdout.mdp
+ff/*.itp

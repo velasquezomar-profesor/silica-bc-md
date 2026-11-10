@@ -1,0 +1,24 @@
+; CTA+ Martini 3, Stavert et al. Mol. Simul. 51 (2025) 188, Tablas 1-2
+; T2-T5 = cola (C1), H1 = cabeza (Q2)
+; SUPUESTO: la Tabla 1 del texto extraido lista T3-T5 (0.483); aqui se usa T4-T5 (cadena lineal).
+; SUPUESTO: angulos funct 2 (coseno armonico, estandar de Martini); el articulo da solo theta y k.
+[ moleculetype ]
+CTAB 1
+
+[ atoms ]
+1 Q2 1 CTAB H1 1  1.0 72.0
+2 C1 1 CTAB T2 2  0.0 72.0
+3 C1 1 CTAB T3 3  0.0 72.0
+4 C1 1 CTAB T4 4  0.0 72.0
+5 C1 1 CTAB T5 5  0.0 72.0
+
+[ bonds ]
+1 2 1 0.375 39000
+2 3 1 0.478 3450
+3 4 1 0.478 3450
+4 5 1 0.483 3450
+
+[ angles ]
+1 2 3 2 156 180
+2 3 4 2 150 100
+3 4 5 2 150 100
