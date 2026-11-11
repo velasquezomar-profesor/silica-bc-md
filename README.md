@@ -29,9 +29,19 @@ Etapa S0a: validación del flujo con CTAB. Objetivo (Stavert, Mol. Simul. 51 (20
 7. Configuración inicial: retícula cúbica con cadenas de CTAB colocadas al azar sobre ejes de la retícula; la minimización la relaja. Si el empaquetado produce solapes, cambiar de semilla.
 8. "% p/p" = masa de CTAB (364.45 g/mol, con Br) sobre masa total, con un bead W = 4 H₂O (72.06 g/mol). El artículo no define la base exacta.
 
+## Análisis: número de agregación
+
+    python3 -m pip install MDAnalysis scipy
+    python3 scripts/agregacion.py --top S0a/ctab_6wt_r1/npt.gro --traj S0a/ctab_6wt_r1/md.xtc --begin 200 --out agg_6wt.csv
+    python3 scripts/agregacion.py --top S0a/ctab_3wt_r1/npt.gro --traj S0a/ctab_3wt_r1/md.xtc --begin 200 --out agg_3wt.csv --sweep
+
+Dos moléculas están en el mismo agregado si alguna pareja de cuentas de cola (T2-T5) está a ≤ 0.76 nm (criterio de Pérez-Sánchez 2016, Martini 2.2), con condiciones periódicas; los agregados son las componentes conexas. Reporta Nn (numérica), Nw (en peso), las mismas solo para agregados ≥ 10 (`--min-micela`) y la fracción libre, con error por bloques. `--sweep` repite con cortes de 0.6 a 1.0 nm para ver la sensibilidad.
+
+Límites: el corte de 0.76 nm viene de Martini 2.2 y no se verificó en Stavert (Martini 3); el artículo no dice si su 125/167 es Nn o Nw. Comparar con ambas y mirar el `--sweep`. Probado solo con un sistema sintético (8 micelas de 60 y 20 monómeros, una micela cruzando la caja): recupera 60 y 8. No se ha corrido sobre las trayectorias reales.
+
 ## Pendiente
 
-- Medir el número de agregación (Hoshen-Kopelman; en Pérez-Sánchez 2016 las colas a ≤ 0.76 nm) y compararlo con 125/167.
+- Correr `scripts/agregacion.py` sobre las trayectorias de S0a y compararlo con 125/167.
 - Parametrizar BC (etapa A) siguiendo el mismo procedimiento.
 
 ## Estado de validación (2026-11-10)
