@@ -1,0 +1,15 @@
+integrator = steep
+emtol      = 100
+emstep     = 0.01
+nsteps     = 20000
+cutoff-scheme            = Verlet
+coulombtype              = reaction-field
+rcoulomb                 = 1.1
+epsilon_r                = 15
+epsilon_rf               = 0
+vdw_type                 = cutoff
+vdw-modifier             = Potential-shift-verlet
+rvdw                     = 1.1
+verlet-buffer-tolerance  = 0.005
+nstcomm                  = 100
+comm-mode                = Linear

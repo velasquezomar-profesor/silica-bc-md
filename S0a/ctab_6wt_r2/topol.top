@@ -1,0 +1,12 @@
+#include "../../ff/martini_v3.0.0.itp"
+#include "../../ff/martini_v3.0.0_ions_v1.itp"
+#include "../../ff/martini_v3.0.0_solvents_v1.itp"
+#include "ctab.itp"
+
+[ system ]
+CTAB 6.00 wt%
+
+[ molecules ]
+CTAB 1000
+BR 1000
+W 79184

@@ -39,6 +39,17 @@ Dos moléculas están en el mismo agregado si alguna pareja de cuentas de cola (
 
 Límites: el corte de 0.76 nm viene de Martini 2.2 y no se verificó en Stavert (Martini 3); el artículo no dice si su 125/167 es Nn o Nw. Comparar con ambas y mirar el `--sweep`. Probado solo con un sistema sintético (8 micelas de 60 y 20 monómeros, una micela cruzando la caja): recupera 60 y 8. No se ha corrido sobre las trayectorias reales.
 
+## Réplicas con semillas adicionales (2026-11-11)
+
+En la corrida original (semilla 1) el tamaño de las micelas se congela hacia los 600-800 ns: 11 micelas en 3 % (Nn 90.9, Nw 104.4) y 9 en 6 % (Nn 111.1, Nw 131.5), sin cambios después. Con 1000 cadenas, N = 1000/(número de micelas), así que una sola corrida es una realización de un proceso estocástico (125 = 1000/8 y 167 ≈ 1000/6 en el artículo). Para ver la distribución se añaden réplicas de 1.5 µs:
+
+    git pull
+    WTS="3 6" SEEDS="2 3" US=1.5 ./scripts/make_S0a.sh
+    ./scripts/lanzar_replicas.sh 6 2 3     # en la máquina de 6 %: 2 réplicas a la vez en la GPU
+    ./scripts/lanzar_replicas.sh 3 2 3     # en la máquina de 3 %
+
+`lanzar_replicas.sh` pone `MDRUN_FLAGS="-ntomp 10"` para repartir los 20 hilos entre las dos réplicas (`run.sh` lo usa si existe). No relanza si ya hay dos `mdrun` activos (usar `FORCE=1` para saltarlo). Analizar con `scripts/agregacion.py --begin 800` (el reparto se congela antes).
+
 ## Pendiente
 
 - Correr `scripts/agregacion.py` sobre las trayectorias de S0a y compararlo con 125/167.
