@@ -1,5 +1,5 @@
 #!/bin/sh
-# Lanza varias réplicas a la vez en la misma GPU, 10 hilos OpenMP cada una.
+# Lanza varias réplicas a la vez en la misma GPU, 1 rango MPI y 10 hilos OpenMP cada una (MDRUN_FLAGS lo reemplaza).
 # Uso: scripts/lanzar_replicas.sh 6 2 3      (6 % p/p, semillas 2 y 3)
 # Antes: WTS=6 SEEDS="2 3" US=1.5 ./scripts/make_S0a.sh
 set -e
@@ -12,7 +12,7 @@ for seed in "$@"; do
   if pgrep -f "mdrun.*-deffnm" >/dev/null && [ "$(pgrep -fc 'mdrun.*-deffnm')" -ge 2 ] && [ -z "$FORCE" ]; then
     echo "ya hay 2 o más mdrun activos; use FORCE=1 para lanzar de todos modos"; exit 1
   fi
-  (cd "$d" && MDRUN_FLAGS="-ntomp 10" nohup ./run.sh > run.out 2>&1 &)
+  (cd "$d" && MDRUN_FLAGS="${MDRUN_FLAGS:--ntmpi 1 -ntomp 10}" nohup ./run.sh > run.out 2>&1 &)
   echo "lanzada $d"
   sleep 2
 done

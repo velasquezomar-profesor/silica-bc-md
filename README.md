@@ -48,7 +48,7 @@ En la corrida original (semilla 1) el tamaño de las micelas se congela hacia lo
     ./scripts/lanzar_replicas.sh 6 2 3     # en la máquina de 6 %: 2 réplicas a la vez en la GPU
     ./scripts/lanzar_replicas.sh 3 2 3     # en la máquina de 3 %
 
-`lanzar_replicas.sh` pone `MDRUN_FLAGS="-ntomp 10"` para repartir los 20 hilos entre las dos réplicas (`run.sh` lo usa si existe). No relanza si ya hay dos `mdrun` activos (usar `FORCE=1` para saltarlo). Analizar con `scripts/agregacion.py --begin 800` (el reparto se congela antes).
+`lanzar_replicas.sh` pone `MDRUN_FLAGS="-ntmpi 1 -ntomp 10"` (con GPU, GROMACS exige `-ntmpi` si se fija `-ntomp`) para repartir los 20 hilos entre las dos réplicas (`run.sh` lo usa si existe). No relanza si ya hay dos `mdrun` activos (usar `FORCE=1` para saltarlo). Analizar con `scripts/agregacion.py --begin 800` (el reparto se congela antes).
 
 ## Pendiente
 
