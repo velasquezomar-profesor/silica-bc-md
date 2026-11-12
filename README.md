@@ -50,6 +50,19 @@ En la corrida original (semilla 1) el tamaño de las micelas se congela hacia lo
 
 `lanzar_replicas.sh` pone `MDRUN_FLAGS="-ntmpi 1 -ntomp 10"` (con GPU, GROMACS exige `-ntmpi` si se fija `-ntomp`) para repartir los 20 hilos entre las dos réplicas (`run.sh` lo usa si existe). No relanza si ya hay dos `mdrun` activos (usar `FORCE=1` para saltarlo). Analizar con `scripts/agregacion.py --begin 800` (el reparto se congela antes).
 
+### Prolongar a 3 µs (2026-11-12)
+
+Con las réplicas de 1.5 µs terminadas, se prolongan desde su punto de control. A mano (lo que se hizo en wkuqc1 para el 6 %):
+
+    cd S0a/ctab_6wt_r2 && gmx convert-tpr -s md.tpr -extend 1500000 -o md_ext.tpr && nohup gmx mdrun -ntmpi 1 -ntomp 10 -s md_ext.tpr -cpi md.cpt -deffnm md > md_ext.out 2>&1 &
+
+Automático (espera a que no haya ningún `gmx` y luego prolonga; no vuelve a extender si ya existe `md_ext.tpr`):
+
+    nohup ./scripts/extender.sh 3 1500000 2 3 > extender.out 2>&1 &     # 3 %, semillas 2 y 3
+    nohup ./scripts/extender.sh 6 0 1 > extender.out 2>&1 &              # semilla 1: su md.tpr ya es de 3 µs, solo se reanuda
+
+Lanzar un solo `extender.sh` por máquina a la vez: varios esperando simultáneamente arrancarían todos juntos y pasarían de dos trabajos por GPU.
+
 ## Pendiente
 
 - Correr `scripts/agregacion.py` sobre las trayectorias de S0a y compararlo con 125/167.
